@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: MyString
+  user: one
+  menu_item: one
+
+two:
+  status: MyString
+  user: two
+  menu_item: two

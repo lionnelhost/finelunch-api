@@ -23,7 +23,7 @@ references:
       - image: circleci/postgres:9.5-alpine # database image
         environment: # environment variables for database
           POSTGRES_USER: postgres
-          POSTGRES_DB: finelunch_api_db
+          POSTGRES_DB: finelunch_api_test
           POSTGRES_PASSWORD: postgres
 
   check_bundler_verson: &check_bundler_verson

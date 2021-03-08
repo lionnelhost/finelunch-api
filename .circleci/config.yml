@@ -86,7 +86,7 @@ jobs:
 # We use workflows to orchestrate the jobs that we declared above.
 workflows:
   version: 2
-  deploy_to_development:     # The name of our workflow is "build_and_test"
+  build_and_test_development:     # The name of our workflow is "build_and_test"
     jobs:             # The list of jobs we run as part of this workflow.
       - build         # Run build first.
       - test:         # Then run test,
@@ -96,6 +96,8 @@ workflows:
             branches:
               only:
                 - develop
+  deploy_development:
+    jobs:
       - heroku/deploy-via-git:
           post-steps:
             - run: 

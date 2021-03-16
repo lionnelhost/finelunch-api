@@ -11,7 +11,7 @@ module Api
                     :profile => {
                         :except => [:created_at,:update_at]
                     },
-                  }, :except => [:updated_at])
+                  }, :except => [:created_at, :updated_at])
             end
             
             def create
@@ -42,9 +42,9 @@ module Api
             def show
                 render json: @user.to_json(:include => {
                     :profile => {
-                        :except => [:created_at,:update_at]
+                        :except => [:created_at, :updated_at]
                     },
-                  }, :except => [:updated_at])
+                  }, :except => [:created_at, :updated_at])
             end
 
             private 

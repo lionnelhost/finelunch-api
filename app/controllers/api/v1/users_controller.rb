@@ -3,7 +3,7 @@ module Api
         class UsersController < ApplicationController
             before_action :set_user, only: [:show]
             def index 
-                @users = User.all
+                @users = User.includes(:profile).all.order(created_at: :DESC)
 
                 render json: @users.to_json(:include => {
                     :profile => {
@@ -14,19 +14,25 @@ module Api
             
             def create
                 @user = User.new(user_params)
+                user_profile = Profile.new(profile_params)
                 if @user.save
                     user_profile = Profile.new(profile_params)
-                    user_profile[user_id] = @user.id 
+                    user_profile[:user_id] = @user.id 
                     if user_profile.save
-                        render json: :ok, status: :created
-                        
+                        render json: {
+                            code: :ok,
+                            message: "user create successfully!"
+                        }, status: :created
                     else
-                        render json: :error, status: :unprocessable_entity
-                    end
-                    
-                    
+                        render json: {
+                            code: 500,
+                            message: user_profile.errors.full_messages
+                        }, status: :unprocessable_entity 
+                    end 
                 else
-                    render json: :error, status: :unprocessable_entity
+                    render json: {
+                        message: @user.errors.full_messages
+                    }, status: :unprocessable_entity
                 end
             end
             
@@ -50,7 +56,7 @@ module Api
             end
             
             def profile_params
-                params.permit(:firstname,:lastname)
+                params.permit(:firstname,:lastname, :user_id)
             end
         end
     end

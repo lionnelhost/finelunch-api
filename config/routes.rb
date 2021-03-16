@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'User', at: 'auth' 
 
       resources :dish_types, only: [:index, :show]
-      resources :dishes, only: [:index, :show]
+      resources :dishes, only: [:index, :show, :create, :update, :destroy]
       resources :menus, only: [:index, :show]
       resources :menu_items, only: [:index, :show]
       resources :users, only: [:index, :show, :create]

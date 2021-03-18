@@ -2,8 +2,9 @@ module Api
     module V1
         class DishesController < ApplicationController
             before_action :set_dish, only: [:show]
+
             def index 
-                @dishes = Dish.all
+                @dishes = Dish.page(@page).per(@per_page)
 
                 render status: :ok, json: @dishes.to_json(:include => {
                     :dish_type => {:except => [:created_at, :updated_at]},

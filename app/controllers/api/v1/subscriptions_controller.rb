@@ -3,7 +3,7 @@ module Api
         class SubscriptionsController < ApplicationController
             before_action :set_subcription, only: [:show]
             def index 
-                @subcriptions = Subscription.all
+                @subcriptions = Subscription.page(@page).per(@per_page)
 
                 render json: @subcriptions.to_json(:include => {
                     :user => {:only => [:email]}

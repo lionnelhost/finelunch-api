@@ -3,7 +3,7 @@ module Api
         class DishTypesController < ApplicationController 
             before_action :set_dish_type, only: [:show, :update, :destroy]
             def index 
-                @dish_types = DishType.all.order(created_at: :DESC)
+                @dish_types = DishType.order(created_at: :DESC).page(@page).per(@per_page)
 
                 render json: @dish_types
             end

@@ -6,7 +6,7 @@ p " create admin user"
 
 User.create!({
     email: "admin@finetechgroup.com",
-    role: "admin",
+    role: "ADMIN",
     password: "test123",
     password_confirmation: "test123"
 });
@@ -16,7 +16,7 @@ p '.'
 10.times do 
     User.create!({
         email: Faker::Internet.email(domain: 'finetechgroup'),
-        role: "customer",
+        role: "CUSTOMER",
         password: "test123",
         password_confirmation: "test123"
     }); 

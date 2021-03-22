@@ -3,7 +3,7 @@ module Api
         class MenusController < ApplicationController
             before_action :set_menu, only: [:show]
             def index 
-                @menus = Menu.all
+                @menus = Menu.page(@page).per(@per_page)
 
                 # render json: @menus, include: [:menu_items]
                 render json: @menus.to_json(:include => {

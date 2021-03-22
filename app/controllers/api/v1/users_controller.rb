@@ -2,10 +2,10 @@ module Api
     module V1
         class UsersController < ApplicationController
             before_action :set_user, only: [:show]
-            before_action :authenticate_api_v1_user!
+            # before_action :authenticate_api_v1_user!
 
             def index 
-                @users = User.includes(:profile).all.order(created_at: :DESC)
+                @users = User.includes(:profile).all.order(created_at: :DESC).page(@page).per(@per_page)
 
                 render json: @users.to_json(:include => {
                     :profile => {

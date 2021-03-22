@@ -41,7 +41,7 @@ module Api
             private 
             
             def set_order
-                @order = Order.includes(:user, menu_item: dish: [:dish_type]).find(params[:id])
+                @order = Order.includes(:user, menu_item: [dish: [:dish_type]]).find(params[:id])
             end
 
             def order_params

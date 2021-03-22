@@ -1,10 +1,11 @@
 module Api
     module V1
         class DishesController < ApplicationController
-            before_action :set_dish, only: [:show, :update, :destroy]
-            def index 
-                @dishes = Dish.includes(:dish_type).all.order(created_at: :DESC)
+            before_action :set_dish, only: [:show,:update, :destroy]
 
+            def index 
+                @dishes = Dish.includes(:dish_type).all.order(created_at: :DESC).page(@page).per(@per_page)
+                
                 render status: :ok, json: @dishes.to_json(:include => {
                     :dish_type => {:except => [:created_at, :updated_at]},
                   }, :except => [:updated_at])
@@ -50,10 +51,10 @@ module Api
             
             
 
-            private 
+            private
             
             def set_dish
-                @dish = Dish.find(params[:id])
+                @dish = Dish.includes(:dish_type).find(params[:id])
             end
 
             def dish_params

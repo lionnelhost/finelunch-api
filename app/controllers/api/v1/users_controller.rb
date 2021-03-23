@@ -1,15 +1,23 @@
 module Api
     module V1
         class UsersController < ApplicationController
-            before_action :set_user, only: [:show]
-            # before_action :authenticate_api_v1_user!
+            before_action :set_user, only: [:show, :update, :destroy]
+            before_action :authenticate_user!
 
             def index 
-                @users = User.includes(:profile).all.order(created_at: :DESC).page(@page).per(@per_page)
+                @users = User.includes(:profile).order(created_at: :DESC).page(@page).per(@per_page)
 
                 render json: @users.to_json(:include => {
                     :profile => {
                         :except => [:created_at,:update_at]
+                    },
+                  }, :except => [:created_at, :updated_at])
+            end
+
+            def show
+                render json: @user.to_json(:include => {
+                    :profile => {
+                        :except => [:created_at, :updated_at]
                     },
                   }, :except => [:created_at, :updated_at])
             end
@@ -37,20 +45,38 @@ module Api
                     }, status: :unprocessable_entity
                 end
             end
-            
 
-            def show
-                render json: @user.to_json(:include => {
-                    :profile => {
-                        :except => [:created_at, :updated_at]
-                    },
-                  }, :except => [:created_at, :updated_at])
+            def update
+                
+                if @user.update(user_update_params)
+                    render json: {
+                        code: :ok,
+                        message: "user updated successfully!"
+                    }, status: :created
+                else
+                    render json: {
+                        message: @user.errors.full_messages
+                    }, status: :unprocessable_entity
+                end
             end
+
+            def destroy
+                if @user.destroy
+                    render json: {
+                        code: :ok,
+                        message: "user deleted successfully!"
+                    }, status: :created
+                else
+                    render json: {
+                        message: @user.errors.full_messages
+                    }, status: :unprocessable_entity
+                end
+            end      
 
             private 
             
             def set_user
-                @user = User.find(params[:id])
+                @user = User.includes(:profile).find(params[:id])
             end
 
             def user_params
@@ -59,6 +85,10 @@ module Api
             
             def profile_params
                 params.permit(:firstname,:lastname, :user_id)
+            end
+            
+            def user_update_params
+                params.permit(:id, :role)
             end
         end
     end

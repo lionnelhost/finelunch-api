@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :dish_types, only: [:index, :show, :create, :update, :destroy]
       resources :menus, only: [:index, :show]
       resources :menu_items, only: [:index, :show]
-      resources :users, only: [:index, :show, :create]
+      resources :users, only: [:index, :show, :create, :update, :destroy]
       resources :orders, only: [:index, :show]
       resources :subscriptions, only: [:index, :show]
     end

@@ -7,9 +7,6 @@ class User < ActiveRecord::Base
     customer: 'CUSTOMER'
   }
 
-  before_create do
-    self.role = User.roles[:customer]
-  end
 
   extend Devise::Models #added this line to extend devise model
 
@@ -21,9 +18,9 @@ class User < ActiveRecord::Base
 
 
   #associations 
-  has_one :profile
-  has_many :orders
-  has_many :subscriptions
+  has_one :profile, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   #validations 
   validates :email, presence: true, uniqueness: { case_sensitive: false }

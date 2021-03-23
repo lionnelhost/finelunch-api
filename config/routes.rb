@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   get '/500', to: 'errors#internal_server_error'
   namespace 'api' do
     namespace 'v1' do
-      mount_devise_token_auth_for 'User', at: 'auth' 
-
       resources :dishes, only: [:index, :show, :create, :update, :destroy]
       resources :dish_types, only: [:index, :show, :create, :update, :destroy]
       resources :menus, only: [:index, :show]
